@@ -4,7 +4,7 @@ This Shiny app was developed as a contribution to **metrology** and **Repeatabil
 
 ---
 
-## 🚀 Features
+## Features
 
 - Interactive interface built with **R Shiny**
 - Supports different methods for R&R studies
@@ -14,7 +14,7 @@ This Shiny app was developed as a contribution to **metrology** and **Repeatabil
 
 ---
 
-## 🛠 Technologies
+## Technologies
 
 ![R](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)
 ![Shiny](https://img.shields.io/badge/Shiny-blue?style=for-the-badge&logo=RStudio&logoColor=white)
@@ -22,7 +22,7 @@ This Shiny app was developed as a contribution to **metrology** and **Repeatabil
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 You can launch the app directly from R using the `runGitHub()` function:
 
