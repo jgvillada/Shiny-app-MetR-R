@@ -1,6 +1,6 @@
 # 📊 Shiny App – Metrology and R&R Studies
 
-This Shiny app was developed as a contribution to **metrology** and **Repeatability & Reproducibility (R&R)** studies, applying various statistical methods that are essential for **quality control** in industrial environments, academic settings, and the development of professional analytical skills.
+This Shiny app was developed as a contribution to metrology and Repeatability & Reproducibility (R&R) studies, using various methods essential for quality control in industrial settings, educational environments, and professional skill development.
 
 ---
 
