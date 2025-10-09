@@ -31,5 +31,7 @@ library(shiny)
 
 runGitHub("Shiny-app-MetR-R", "jgvillada")
 
-> 📌 **Nota:** The app includes built-in datasets available in this repository.
+```
+---
+📌 **Nota**: The app includes built-in datasets available in this repository.
 You can use them to explore and evaluate the results of different R&R methods directly within the app..
