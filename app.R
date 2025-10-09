@@ -1,3 +1,4 @@
+
 library(shiny)
 library(bslib)
 library(dplyr)
@@ -275,7 +276,7 @@ nav_panel(
           tags$p("Descriptive analysis provides a comprehensive overview of measurement behavior by operator. 
                  Distribution and boxplots allow for the identification of variability, biases, and possible outliers, 
                  while individual measurement visualization facilitates detailed comparisons. Finally, the statistical summary 
-                 complements the analysis by consolidating key information.")
+                 complements the analysis by consolidating key information.", uiOutput("conclusions"))
       ),
       div(class = "custom-card",
           tags$h6(tags$strong("Graphical and numerical long RR")),
@@ -289,15 +290,15 @@ nav_panel(
           tags$p("The short R&R study is useful for seeing how the measurement system performs under controlled conditions, 
           without many sources of variation. When compared to the long R&R, which includes more real-world factors, variability may increase. 
           This difference is normal and expected, and shows that a system may perform well in the short term but have more variation in 
-          real-world conditions. Therefore, it is important to consider both analyses to truly understand how the measurement system performs.")
+          real-world conditions. Therefore, it is important to consider both analyses to truly understand how the measurement system performs.", uiOutput("conclusions_shortRR"))
       ),
       div(class = "custom-card",
           tags$h6(tags$strong("Measurement System Acceptance Criteria")),
           tags$p("The Measurement System Acceptance Criteria section is key to validating whether the measurement system complies with the
           established accuracy/tolerance (A/T) ranges and number of distinguishable categories (Nc). Automating the results speeds up interpretation 
-          and reduces errors, facilitating quick and consistent decisions on system acceptance or improvement.")
-      )
-    ),
+          and reduces errors, facilitating quick and consistent decisions on system acceptance or improvement.", uiOutput("conclusion_interp"))
+          )
+    ), 
     
     # Card of references 
     card(
@@ -370,17 +371,20 @@ server <- function(input, output, session) {
     df <- data_user()
     
     df$Operator <- as.factor(df$Operator)
-    df$Part<- as.factor(df$Part)
+    df$Part <- as.factor(df$Part)
     
-    p <- ggplot(df, aes(x = Operator, y = Values, color = Part)) +
+    p <- ggplot(df, aes(
+      x = Operator,
+      y = Values,
+      color = Part,
+      text = paste("Part:", Part, "<br>Tiempo:", round(Values, input$decimals))
+    )) +
       geom_point() +
-      geom_jitter(width = 0.2,alpha = input$alpha,
-                  aes(text = paste("Part:", Part,
-                                   "<br>Tiempo:", round(Values, input$decimals)))) +
-      labs() # + theme_minimal()
+      geom_jitter(width = 0.2, alpha = input$alpha) +
+      labs()
+    
     plotly::ggplotly(p, tooltip = "text")
-  
-    })
+  })
   
   # Summary Table by Part
   output$summaryPart <- DT::renderDT({
@@ -412,6 +416,7 @@ server <- function(input, output, session) {
         SD = round(sd(Values), input$decimals),
         range = round(max(Values) - min(Values), input$decimals)
       )
+    
     
     datatable(res_Operator,
               #caption = "Statistical summary by operator",
@@ -571,7 +576,6 @@ server <- function(input, output, session) {
       )
   })
   
-  
   #To the interpretation
   output$manualInput <- renderUI({
     if (input$select_PT == "1") { 
@@ -629,7 +633,7 @@ server <- function(input, output, session) {
     sugerence_nc <- if (input$nc > 4) {
       "No improvement required"
     } else if (input$nc >= 2) {
-      "improvement recommended if possible"
+      "Improvement recommended if possible"
     } else {
       "Resolution must be improved urgently"
     }
@@ -647,7 +651,92 @@ server <- function(input, output, session) {
       "</div>"
     ))
   })
+  
+  #To reactive conclusions descriptive analysis 
+  summary_data <- reactive({
+    df <- data_user()
+    req(df$Operator, df$Values)
+    
+    df %>%
+      group_by(Operator) %>%
+      summarise(
+        average = round(mean(Values), input$decimals),
+        SD = round(sd(Values), input$decimals),
+        range = round(max(Values) - min(Values), input$decimals)
+      )
+  })
+  
+  output$summaryOperator <- DT::renderDT({
+    summary_data()
+  })
+  
+  output$conclusions <- renderUI({
+    res <- summary_data()
+    req(nrow(res) > 0)
+    
+    # Operario con mayor promedio
+    max_avg <- res$Operator[which.max(res$average)]
+    max_avg_val <- max(res$average)
+    
+    # Operario con mayor rango
+    max_range <- res$Operator[which.max(res$range)]
+    max_range_val <- max(res$range)
+    
+    tags$p("In this case, ",
+             "the operator with the highest average was ", max_avg, " (", tags$strong(max_avg_val), "). ",
+             "and the highest range of variation was ", max_range, " (", tags$strong(max_range_val), ")."
+           )
+  })
+  
+  #To reactive conclusions numerical short RR
+  output$conclusions_shortRR <- renderUI({
+    vals <- Values_rr()
+    req(vals)
+    
+    # Redondear para mostrar
+    range_avg <- round(vals$range_average, input$decimals)
+    EM <- round(vals$EM, input$decimals)
+    desv <- round(vals$desv, input$decimals)
+    Pt <- round(vals$Pt, input$decimals)
+    
+    # Generar texto
+    tags$p("The average range between operators and parts is  ", tags$strong(range_avg), 
+             ", the estimated measurement error (ME) is ", tags$strong(EM), 
+             ", with a standard deviation of ", tags$strong(desv), 
+             ". This represents a ", tags$strong(Pt), "% of the total specified tolerance.")
+  })
+  
+  ##To reactive conclusions of interpretacion 
+    
+  output$conclusion_interp <- renderUI({
+    req(!is.na(final_value()), !is.na(input$nc))
+    
+    PTValue <- final_value()
+    ncValue <- input$nc
+    
+    sugerence_pt <- if (PTValue <= 20) {
+      "no immediate action required"
+    } else if (PTValue <= 30) {
+      "review and follow-up recommended"
+    } else {
+      "measurement system needs to be corrected"
+    }
+    
+    sugerence_nc <- if (ncValue > 4) {
+      "no improvement required"
+    } else if (ncValue >= 2) {
+      "improvement recommended if possible"
+    } else {
+      "resolution must be improved urgently"
+    }
+    
+    tags$p(
+      "The suggestion regarding the measurement process (P/T) was ", tags$strong(sugerence_pt),
+             " and to the resolution (Nc) was ", tags$strong(sugerence_nc, ".")
+    )
+  })
 } 
   
 # Run the application 
 shinyApp(ui = ui, server = server)
+
