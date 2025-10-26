@@ -135,7 +135,7 @@ ui <- page_navbar(
       #Tab 1
       navset_card_underline(
         title = tags$h4(tags$strong("Results")),
-        nav_panel("Graphical and numerical long RR",
+        nav_panel("Graphical and numerical GR&R ANOVA-based",
                   layout_column_wrap(
                     width = 1/2,
                     height = 300,
@@ -154,7 +154,7 @@ ui <- page_navbar(
                          verbatimTextOutput("Anova")))
                   ),
         #Tab 2
-        nav_panel("Numerical short R&R",
+        nav_panel("Numerical Classical GR&R",
                   layout_column_wrap(
                     width = 1/2,
                     height = 300,
@@ -215,12 +215,12 @@ nav_panel("Measurement System Acceptance Criteria",
                 fluidRow(
                   column(6,
                          selectInput("select_PT", "Select P/T value", 
-                                     choices = list("Based on Graphical and numerical long RR" = 1, 
-                                                    "Based on Numerical short R&R " = 2), selected = 1)
+                                     choices = list("Based on Graphical and numerical GR&R ANOVA-based" = 1, 
+                                                    "Based on Numerical Classical GR&R" = 2), selected = 1)
                                      ),
                   
                   column(6,
-                         numericInput("nc", "Nc value (Based on Graphical and numerical long RR)", 
+                         numericInput("nc", "Nc value (Based on Graphical and numerical GR&R ANOVA-based)", 
                                       value = NA, min = 2, step = 1)
                   ),
                   
@@ -279,18 +279,18 @@ nav_panel(
                  complements the analysis by consolidating key information.", uiOutput("conclusions"))
       ),
       div(class = "custom-card",
-          tags$h6(tags$strong("Graphical and numerical long RR")),
-          tags$p("The Gage R&R study allowed for a complete evaluation of the measurement system's accuracy, analyzing 
+          tags$h6(tags$strong("Graphical and numerical GR&R ANOVA-based")),
+          tags$p("The GR&R ANOVA-based study allowed for a complete evaluation of the measurement system's accuracy, analyzing 
           the variation originating from the parts, the operators, and their interactions. In addition, it quantified repeatability
           and reproducibility and identified the percentage contribution of each component to the total variation. This analysis also 
           showed the resolution of the system (number of distinct categories), providing a clear view of its ability to distinguish between parts.")
       ),
       div(class = "custom-card",
-          tags$h6(tags$strong("Numerical short R&R")),
-          tags$p("The short R&R study is useful for seeing how the measurement system performs under controlled conditions, 
+          tags$h6(tags$strong("Numerical Classical GR&R")),
+          tags$p("The Classical GR&R study is useful for seeing how the measurement system performs under controlled conditions, 
           without many sources of variation. When compared to the long R&R, which includes more real-world factors, variability may increase. 
           This difference is normal and expected, and shows that a system may perform well in the short term but have more variation in 
-          real-world conditions. Therefore, it is important to consider both analyses to truly understand how the measurement system performs.", uiOutput("conclusions_shortRR"))
+          real-world conditions. Therefore, it is important to consider both analyses to truly understand how the measurement system performs.", uiOutput("conclusions_classicalGRR"))
       ),
       div(class = "custom-card",
           tags$h6(tags$strong("Measurement System Acceptance Criteria")),
@@ -423,7 +423,7 @@ server <- function(input, output, session) {
               options = list(pageLength = input$pageLength, dom = 't'))
   })
   
-  ###"Graphical result long RR" - Gage
+  ###Graphical and numerical GR&R ANOVA-based - Gage
   #Plot Gage
   output$Gage_Analyse <- renderPlot({
     df <- data_user()
@@ -442,7 +442,7 @@ server <- function(input, output, session) {
                    signifstars = TRUE)
   })
   
-  #Numerical result RR largo
+  #Numerical result GR&R ANOVA-based
   output$Anova <- renderPrint({
       df <- data_user()
       
@@ -462,7 +462,7 @@ server <- function(input, output, session) {
       )
   })
   
-  #Results short R&R
+  #Results Numerical Classical GR&R
   
   #value calculations 
   Values_rr <- reactive({
@@ -575,6 +575,7 @@ server <- function(input, output, session) {
         )
       )
   })
+  
   
   #To the interpretation
   output$manualInput <- renderUI({
@@ -689,7 +690,7 @@ server <- function(input, output, session) {
   })
   
   #To reactive conclusions numerical short RR
-  output$conclusions_shortRR <- renderUI({
+  output$conclusions_classicalGRR <- renderUI({
     vals <- Values_rr()
     req(vals)
     
@@ -707,8 +708,9 @@ server <- function(input, output, session) {
   })
   
   ##To reactive conclusions of interpretacion 
-    
+  
   output$conclusion_interp <- renderUI({
+    
     req(!is.na(final_value()), !is.na(input$nc))
     
     PTValue <- final_value()
