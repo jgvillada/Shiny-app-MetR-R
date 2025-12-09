@@ -1,4 +1,4 @@
-
+#install.packages('rsconnect')
 library(shiny)
 library(bslib)
 library(dplyr)
@@ -41,6 +41,7 @@ ui <- page_navbar(
       
       sidebar = sidebar(
         fileInput("file", label = h5("File input")),
+        actionButton("load_demo", "Load Demo Data"), #test data button
         
         sliderInput(
           inputId = "alpha",
@@ -111,6 +112,7 @@ ui <- page_navbar(
       #title = "   ",
       sidebar = sidebar(
         fileInput("file", label = h5("File input")),
+        actionButton("load_demo", "Load Demo Data"),
         
         numericInput(
           inputId = "decimals",
@@ -330,45 +332,80 @@ nav_panel(
 server <- function(input, output, session) {
   
   
-  # Read file uploaded by user
-  data_user <- reactive({
-    req(input$file) # wait for file to load
-    read_excel(input$file$datapath)
+  # --- Data demo ---
+  demo_data <- data.frame(
+    Part = rep(1:10, each = 4),
+    Operator = rep(c(1,1,2,2), 10),
+    Measurement = rep(c(1,2,1,2), 10),
+    TimeSeconds = c(75.9, 79.78, 81.71, 80.96, 81.12, 84.43, 80.26, 79.49, 100.01, 99.82,
+                    89.43, 96.02, 86.64, 89.32, 96.68, 93.04, 77.9, 79.32, 77.76, 72.35,
+                    81.3, 83.52, 76.27, 79.39, 96.21, 99.5, 93.27, 90.39, 78.96, 78.3,
+                    86.68, 79.27, 98.17, 99.58, 92.16, 90.16, 83.28, 89.5, 90.02, 89.41),
+    Values = c(1.265, 1.330, 1.362, 1.349, 1.352, 1.407, 1.338, 1.325, 1.667, 1.664,
+               1.491, 1.600, 1.444, 1.489, 1.611, 1.551, 1.298, 1.322, 1.296, 1.206,
+               1.355, 1.392, 1.271, 1.323, 1.604, 1.658, 1.555, 1.507, 1.316, 1.305,
+               1.445, 1.321, 1.636, 1.660, 1.536, 1.503, 1.388, 1.492, 1.500, 1.490)
+  )
+  
+  # Reactive for storing current data (file or demo) 
+  data_user <- reactiveVal(NULL)  #initially empty 
+  
+  # load file by user
+  observeEvent(input$file, {
+    req(input$file)
+    data_user(read_excel(input$file$datapath))
   })
+  
+  # load file demo only the button is used
+  observeEvent(input$load_demo, {
+    data_user(demo_data)
+  })
+  
   
   ###Descriptive Analysis 
   #Plot 1
   output$density <- renderPlot({
-    df <- data_user()  
+    df <- data_user()
+    req(df)          # asegura que haya datos antes de plotear
     req(input$alpha)
     
     df$Operator <- as.factor(df$Operator)
+    
     ggplot(data = df, aes(x = Values, fill = Operator)) +
-             geom_density(alpha = input$alpha) +
+      geom_density(alpha = input$alpha) +
       scale_fill_manual(values = c(
         "1" = "#5DADE2",  
-        "2" = "#FFA500"   
-      )) + labs()
+        "2" = "#FFA500"
+      )) +
+      labs()
   })
+  
   
   # Plot2 : Boxplot 
   output$boxplots <- renderPlot({
     df <- data_user()
     
+    # Evita que se dibuje si no hay datos
+    req(df)
+    
     df$Operator <- as.factor(df$Operator)
-    df$Part<- as.factor(df$Part)
+    df$Part <- as.factor(df$Part)
     
     ggplot(df, aes(x = Part, y = Values, fill = Operator)) +
       geom_boxplot() +
       scale_fill_manual(values = c(
         "1" = "#5DADE2",  
         "2" = "#FFA500"   
-      )) + labs()
+      )) +
+      labs()
   })
   
-  #Plot3: Plotly
+  # Plot3: Plotly
   output$plotly <- plotly::renderPlotly({
     df <- data_user()
+    
+    # Evita que se dibuje si no hay datos
+    req(df)
     
     df$Operator <- as.factor(df$Operator)
     df$Part <- as.factor(df$Part)
@@ -427,6 +464,7 @@ server <- function(input, output, session) {
   #Plot Gage
   output$Gage_Analyse <- renderPlot({
     df <- data_user()
+    req(df)
     
     # Ensure that the factors are defined
     df$Operator <- as.factor(df$Operator)
@@ -445,6 +483,7 @@ server <- function(input, output, session) {
   #Numerical result GR&R ANOVA-based
   output$Anova <- renderPrint({
       df <- data_user()
+      req(df)
       
       # Ensure that the factors are defined
       df$Operator <- as.factor(df$Operator)
@@ -467,6 +506,7 @@ server <- function(input, output, session) {
   #value calculations 
   Values_rr <- reactive({
     df <- data_user()
+    req(df)
     
     #Ensure that the factors are defined
     df$operador <- as.factor(df$Operator)
