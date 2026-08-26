@@ -1,1 +1,190 @@
 
+# ESPAÑOL
+
+## Guía de uso de la aplicación
+
+La aplicación está compuesta por tres paneles principales:
+
+* **Descriptive Analysis**
+* **Metrology**
+* **Conclusions and References**
+
+Los paneles **Descriptive Analysis** y **Metrology** cuentan con una barra lateral que permite configurar diferentes parámetros según el análisis.
+
+---
+
+## 1. Descriptive Analysis
+
+Este panel proporciona una exploración inicial de los datos mediante representaciones gráficas y resúmenes estadísticos.
+
+### Parámetros de configuración
+
+* **Alpha:** permite modificar la visualización de las salidas gráficas de:
+
+  * *Distribution of Measurements by Operator*
+  * *Measurements by Part and Operator*
+
+* **Decimal Numbers:** permite definir el número de cifras decimales utilizadas en las salidas numéricas.
+
+* **Page Length (Tables):** permite configurar la longitud de las tablas, particularmente en *Summary of Data by Operator and Part*. 
+También permite controlar la presentación del resumen estadístico por pieza (*Part*), que define las filas de la tabla.
+
+### Interpretación
+
+El análisis descriptivo constituye una aproximación inicial al estudio. Permite identificar patrones, diferencias y posibles comportamientos mediante 
+los gráficos y contrastarlos con los valores estadísticos obtenidos. Las salidas del análisis descriptivo deben interpretarse como evidencia exploratoria 
+y no como conclusiones definitivas. La interpretación debe considerar el contexto del estudio y los resultados estadísticos correspondientes.
+
+---
+
+## 2. Metrology
+
+El panel **Metrology** está dividido en tres secciones principales.
+
+### 2.1 Graphical and Numerical GR&R – ANOVA-based
+Corresponde al análisis Gage R&R basado en ANOVA y proporciona una evaluación completa del sistema de medición mediante resultados gráficos y numéricos.
+**No requiere configuración desde la barra lateral**, ya que este módulo no incorpora parámetros adicionales en ella.
+
+---
+
+### 2.2 Numerical Classical GR&R
+Corresponde al método clásico de Gage R&R y proporciona un análisis numérico más compacto.
+Este análisis depende principalmente de:
+
+* **Tolerance:** corresponde al intervalo de tolerancia definido para la característica estudiada, de acuerdo con los límites de especificación 
+o el valor establecido para el estudio.
+* **K2:** constante utilizada por el método clásico. El valor correspondiente debe seleccionarse de acuerdo con el diseño del estudio utilizando 
+la tabla de referencia proporcionada en la aplicación.
+
+En este módulo, el separador decimal para los valores de tolerancia y K2 puede ingresarse utilizando **punto (.) o coma (,)**.
+
+---
+
+### 2.3 Measurement System Acceptance Criteria
+Este módulo permite interpretar los resultados del sistema de medición utilizando criterios de aceptación basados en valores de referencia establecidos en tablas.
+Para realizar la interpretación, primero se debe seleccionar el origen del resultado mediante **Select P/T Value**:
+
+#### Graphical and Numerical GR&R – ANOVA-based
+Si se selecciona esta opción:
+1. Ingrese en **Enter the % P/T Value** el valor correspondiente a **Total Gage R&R (%StudyVar)** obtenido en los resultados numéricos del análisis ANOVA-based.
+2. Ingrese el valor de **Number of Distinct Categories (NDC)** obtenido en el mismo análisis.
+3. La aplicación utilizará estos valores para generar la interpretación correspondiente.
+
+#### Numerical Classical GR&R
+Si se selecciona esta opción:
+1. Seleccione **Numerical Classical GR&R**.
+2. Ingrese el valor de **Number of Distinct Categories (NDC)** obtenido en los resultados numéricos del análisis ANOVA-based.
+3. La aplicación generará la interpretación correspondiente de acuerdo con los criterios establecidos.
+
+---
+
+## 3. Conclusions and References
+
+Este panel presenta interpretaciones generales asociadas con:
+* **Descriptive Analysis**
+* **Graphical and Numerical GR&R – ANOVA-based**
+* **Numerical Classical GR&R**
+* **Measurement System Acceptance Criteria**
+
+También incluye material de referencia relevante utilizado para el desarrollo de la aplicación y para la interpretación de los resultados.
+
+### Consideración final
+Las interpretaciones proporcionadas por la aplicación constituyen **herramientas de apoyo para comprender los resultados del estudio**. 
+No deben considerarse, por sí mismas, como decisiones definitivas. La interpretación final debe considerar el contexto del proceso, los objetivos del estudio,
+las condiciones de medición, los criterios de calidad y el conocimiento técnico del investigador o ingeniero.
+**La aplicación apoya el análisis; la decisión corresponde al criterio profesional.**
+
+# ENGLISH
+
+## Application Guide
+
+The application consists of three main panels:
+* **Descriptive Analysis**
+* **Metrology**
+* **Conclusions and References**
+
+The **Descriptive Analysis** and **Metrology** panels include a sidebar for configuring different parameters according to the analysis.
+
+---
+
+## 1. Descriptive Analysis
+This panel provides an initial exploration of the data through graphical representations and statistical summaries.
+
+### Configuration parameters
+* **Alpha:** allows the user to modify the parameters used in the graphical outputs:
+
+  * *Distribution of Measurements by Operator*
+  * *Measurements by Part and Operator*
+
+* **Decimal Numbers:** defines the number of decimal places displayed in numerical outputs.
+* **Page Length (Tables):** controls the length of the tables, particularly *Summary of Data by Operator and Part*. 
+It also controls the presentation of the statistical summary by *Part*, which defines the table rows.
+
+### Interpretation
+
+Descriptive analysis provides an initial overview of the study. It allows users to identify patterns, differences, and 
+potential behaviors through graphical outputs and compare them with the corresponding statistical values. Descriptive results should be interpreted 
+as exploratory evidence rather than definitive conclusions. Interpretation should consider the study context and the corresponding statistical results.
+
+---
+
+## 2. Metrology
+
+The **Metrology** panel is divided into three main sections.
+
+### 2.1 Graphical and Numerical GR&R – ANOVA-based
+This section provides a comprehensive ANOVA-based Gage R&R analysis, including graphical and numerical results.
+**No sidebar configuration is required**, as this module does not include additional sidebar parameters.
+
+---
+
+### 2.2 Numerical Classical GR&R
+
+This section provides a more compact numerical analysis based on the classical Gage R&R method.
+
+The analysis mainly depends on:
+* **Tolerance:** the tolerance interval defined for the characteristic under study, according to the specification limits or the value established for the study.
+* **K2:** the constant used by the classical method. The appropriate value should be selected according to the study design using the reference table provided in the application.
+
+For this module, decimal values may be entered using either a **period (.) or comma (,)** as the decimal separator.
+
+---
+
+### 2.3 Measurement System Acceptance Criteria
+
+This section provides an interpretation of the measurement system using acceptance criteria based on reference values from established tables.
+First, select the source of the P/T result using **Select P/T Value**.
+
+#### Graphical and Numerical GR&R – ANOVA-based
+
+If this option is selected:
+1. Enter the **Total Gage R&R (%StudyVar)** value obtained from the numerical results of the ANOVA-based analysis in **Enter the % P/T Value**.
+2. Enter the corresponding **Number of Distinct Categories (NDC)**.
+3. The application will use these values to generate the corresponding interpretation.
+
+#### Numerical Classical GR&R
+
+If this option is selected:
+1. Select **Numerical Classical GR&R**.
+2. Enter the **Number of Distinct Categories (NDC)** obtained from the classical analysis.
+3. The application will generate the corresponding interpretation according to the established criteria.
+
+---
+
+## 3. Conclusions and References
+
+This panel provides general interpretations associated with:
+* **Descriptive Analysis**
+* **Graphical and Numerical GR&R – ANOVA-based**
+* **Numerical Classical GR&R**
+* **Measurement System Acceptance Criteria**
+
+It also provides relevant reference material used in the development of the application and in the interpretation of the results.
+
+### Final Consideration
+
+The interpretations provided by the application are **tools to support the understanding of the study results**. They should not, by themselves, 
+be considered definitive decisions. Final interpretation should consider the process context, study objectives, measurement conditions, quality requirements, 
+and the technical expertise of the researcher or engineer.
+**The application supports the analysis; the decision relies on professional judgment.**
+
