@@ -1,0 +1,143 @@
+# EN ESPAÑOL
+# Instrucciones para la carga de datos
+
+La aplicación está compuesta por tres paneles principales:
+
+* **Descriptive Analysis**
+* **Metrology**
+* **Conclusions and References**
+
+Los paneles **Descriptive Analysis** y **Metrology** cuentan con una barra lateral izquierda que permite cargar el archivo de datos 
+y configurar diferentes parámetros numéricos relacionados con los cálculos, las cifras decimales y las salidas gráficas.
+
+## 1. Carga de datos
+
+**La estructura del archivo de datos es fundamental para el correcto funcionamiento de la aplicación.**
+
+El archivo debe estar en formato **Excel (`.xlsx`)** y contener exactamente las siguientes cuatro columnas:
+
+| Columna       | Descripción                                                                                   |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `Part`        | Identifica la pieza que está siendo medida. Utilizar valores numéricos: `1, 2, 3, ... , 10`        |
+| `Operator`    | Identifica al operario que realiza la medición. Utilizar valores numéricos: `1, 2, ...`    |
+| `Measurement` | Identifica el número de repetición de la medición. Utilizar valores numéricos: `1, 2, ...` |
+| `Values`      | Contiene el resultado numérico de la medición.                                                |
+
+Para la columna `Values`, cuando se utilicen valores decimales, se debe utilizar **punto (`.`) como separador decimal**. 
+Esta es la única columna que debe contener valores decimales.
+
+### Ejemplo
+
+Supongamos un estudio **Gage R&R** para evaluar la medición del diámetro externo de anillos de silicona. Se seleccionan:
+
+* 10 piezas
+* 2 operarios
+* 2 mediciones por operario y pieza
+
+Después de aleatorizar el estudio, la primera medición corresponde a:
+
+* `Part = 2`
+* `Operator = 1`
+* `Measurement = 1`
+* `Values = 2.5`
+
+La fila correspondiente será:
+
+| Part | Operator | Measurement | Values |
+| ---: | -------: | ----------: | -----: |
+|    2 |        1 |           1 |    2.5 |
+
+Es decir:
+
+`2 - 1 - 1 - 2.5`
+
+Una vez completadas todas las mediciones, guarde el archivo como `.xlsx` y cárguelo mediante **Browse** en la barra lateral de la aplicación.
+
+---
+
+## 2. Archivos de referencia
+
+### `Data.xlsx`
+
+Contiene un ejemplo de los datos utilizados por la aplicación y muestra la estructura y los nombres de las columnas requeridas.
+
+### `Randomization.xlsx`
+
+Contiene **7 formatos de aleatorización** que pueden utilizarse para un diseño de:
+
+**10 Partes × 2 Operarios × 2 Mediciones**
+
+Cada formato corresponde a una secuencia de medición diferente. Una vez seleccionado el formato, se debe seguir la secuencia indicada y registrar los resultados
+de las mediciones en la columna `Values`.
+
+---
+# IN ENGLISH
+# Data Upload Instructions
+
+The application consists of three main panels:
+
+* **Descriptive Analysis**
+* **Metrology**
+* **Conclusions and References**
+
+The **Descriptive Analysis** and **Metrology** panels include a left sidebar for uploading the dataset and configuring numerical parameters related to calculations, decimal places, and graphical outputs.
+
+## 1. Data Upload
+
+**The structure of the input file is essential for the correct operation of the application.**
+
+The dataset must be provided as an **Excel file (`.xlsx`)** containing exactly the following four columns:
+
+| Column        | Description                                                                            |
+| ------------- | -------------------------------------------------------------------------------------- |
+| `Part`        | Identifies the part being measured. Use numeric values: `1, 2, 3, ...`                 |
+| `Operator`    | Identifies the operator performing the measurement. Use numeric values: `1, 2, 3, ...` |
+| `Measurement` | Identifies the measurement repetition. Use numeric values: `1, 2, 3, ...`              |
+| `Values`      | Contains the numerical measurement result.                                             |
+
+For the `Values` column, decimal values must use a **period (`.`) as the decimal separator**. This should be the only column containing decimal values.
+
+### Example
+
+Consider a **Gage R&R** study to evaluate the measurement of the external diameter of silicone rings. The study includes:
+
+* 10 parts
+* 2 operators
+* 2 measurements per operator and part
+
+After randomizing the study, suppose the first measurement corresponds to:
+
+* `Part = 2`
+* `Operator = 1`
+* `Measurement = 1`
+* `Values = 2.5`
+
+The corresponding row is:
+
+| Part | Operator | Measurement | Values |
+| ---: | -------: | ----------: | -----: |
+|    2 |        1 |           1 |    2.5 |
+
+Therefore:
+
+`2 - 1 - 1 - 2.5`
+
+Once all measurements have been completed, save the file as `.xlsx` and upload it using **Browse** in the application's sidebar.
+
+---
+
+## 2. Reference Files
+
+### `Data.xlsx`
+
+Contains an example dataset showing the required structure and column names.
+
+### `Randomization.xlsx`
+
+Contains **7 randomization formats** that can be used for a:
+
+**10 Parts × 2 Operators × 2 Measurements**
+
+design.
+
+Each format represents a different measurement sequence. Select one format, follow the specified sequence, and record the measurement results in the `Values` column.
